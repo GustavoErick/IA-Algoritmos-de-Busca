@@ -101,13 +101,11 @@ def main():
     print(f"\n{banner}\nSISTEMA DE EXPERIMENTOS PARA O 8-PUZZLE\n{banner}")
     print("Partes executadas: 1, 2, 3 e 4 (conforme enunciado).\n")
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--single",
-        help="Executa apenas um cenário: ALG,Ck[,Hj]  (ex.: A5,C2,H1)",
-        default="",
-    )
-    args = parser.parse_args()
+    # MENU INTERATIVO
+    print("Escolha uma opção:")
+    print("1 - Executar apenas um algoritmo/cenário")
+    print("2 - Executar todas as partes (1, 2, 3 e 4)")
+    opcao = input("Digite 1 ou 2: ").strip()
 
     # dicionários
     cost_funcs = {"C1": cost_function_c1, "C2": cost_function_c2,
@@ -134,9 +132,89 @@ def main():
         ]
     )
 
-    # single-run rápido?
-    if args.single:
-        run_single(args, cost_funcs, heuristics, algos, writer)
+    if opcao == "1":
+        print("\nFormatos possíveis para escolha:")
+        print("Algoritmos:")
+        print("  A1 - Busca em Largura (BFS)")
+        print("  A2 - Busca em Profundidade (DFS)")
+        print("  A3 - Custo Uniforme (UCS)")
+        print("  A4 - Gulosa")
+        print("  A5 - A*")
+        print("Funções de custo:")
+        print("  C1, C2, C3, C4")
+        print("Heurísticas (obrigatório para A4 e A5):")
+        print("  H1, H2")
+        print("\nExemplos de entrada:")
+        print("  A1,C2")
+        print("  A4,C1,H2")
+        print("  A5,C3,H1")
+        print("\nDigite o cenário no formato: ALG,Ck[,Hj]  (ex.: A5,C2,H1)")
+        entrada = input("Cenário: ").strip()
+        tokens = entrada.split(",")
+        if len(tokens) not in {2, 3}:
+            print("Formato inválido. Use: ALG,Ck[,Hj] (ex.: A5,C3,H2)")
+            csvfile.close()
+            return
+        alg_key, cost_key = tokens[0], tokens[1]
+        heur_key = tokens[2] if len(tokens) == 3 else None
+
+        # Validação dos códigos
+        if alg_key not in algos:
+            print(f"Algoritmo '{alg_key}' inválido.")
+            csvfile.close()
+            return
+        if cost_key not in cost_funcs:
+            print(f"Função de custo '{cost_key}' inválida.")
+            csvfile.close()
+            return
+        if alg_key in {"A4", "A5"} and heur_key not in heuristics:
+            print(f"Heurística '{heur_key}' inválida ou ausente para o algoritmo escolhido.")
+            csvfile.close()
+            return
+        if alg_key not in {"A4", "A5"} and heur_key is not None:
+            print(f"Heurística não deve ser informada para o algoritmo '{alg_key}'.")
+            csvfile.close()
+            return
+
+        print("\nDigite o estado inicial do puzzle (9 números separados por espaço, ex: 1 2 3 4 5 6 7 8 0):")
+        tiles_str = input("Estado inicial: ").strip()
+        tiles = [int(x) for x in tiles_str.split()]
+        if len(tiles) != 9 or set(tiles) != set(range(9)):
+            print("Estado inválido. Deve conter os números de 0 a 8, sem repetição.")
+            csvfile.close()
+            return
+
+        class Args:
+            single = entrada
+            initial_tiles = tiles
+
+        def run_single_with_initial(args, cost_funcs, heuristics, algos, writer):
+            token = args.single.split(",")
+            alg_key, cost_key = token[0], token[1]
+            heur_key = token[2] if len(token) == 3 else None
+
+            initial = PuzzleState(args.initial_tiles)
+            if alg_key == "A1":
+                res = algos[alg_key](initial)
+            elif alg_key == "A2":
+                res = algos[alg_key](initial)
+            elif alg_key == "A3":
+                res = algos[alg_key](initial, cost_funcs[cost_key])
+            elif alg_key == "A4":
+                res = algos[alg_key](initial, heuristics[heur_key])
+            elif alg_key == "A5":
+                res = algos[alg_key](initial, cost_funcs[cost_key], heuristics[heur_key])
+            else:
+                raise ValueError("Algoritmo desconhecido")
+
+            save_results("Single", alg_key, cost_key, heur_key, initial, res, writer)
+            print("Resultado salvo. Arquivo: results.csv")
+
+        run_single_with_initial(Args, cost_funcs, heuristics, algos, writer)
+        csvfile.close()
+        return
+    elif opcao != "2":
+        print("Opção inválida. Encerrando.")
         csvfile.close()
         return
 
