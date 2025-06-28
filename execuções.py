@@ -80,32 +80,31 @@
                     result = algorithms['A5'](initial, cost_func, heuristic)
                     save_results('Parte3', 'A5', cost_name, heuristic_name, initial, result)
                     print("OK")
-        
-        # Parte 4: Randomização de vizinhança (15 execuções, 10 repetições)
-        print("\n" + "="*50)
-        print("EXECUTANDO PARTE 4: Randomização de Vizinhança")
-        print("="*50)
-        for i in range(1, 16):
-            print(f"\nExecução {i}/15 - {time.strftime('%H:%M:%S')}")
-            initial = generate_random_state()
-            
-            # i. Busca em Largura com randomização
-            for run in range(10):
-                print(f"  BFS randomizada {run+1}/10...", end=' ', flush=True)
-                result = algorithms['A1'](PuzzleState(initial.tiles.copy()))
-                for cost_name, cost_func in cost_funcs.items():
-                    if result['path']:
-                        result['cost'] = sum(cost_func(step, step.action) for step in result['path'][1:])
-                    save_results('Parte4', 'A1-random', cost_name, None, initial, result)
-                print("OK")
-            
-            # ii. Busca em Profundidade com randomização
-            for run in range(10):
-                print(f"  DFS randomizada {run+1}/10...", end=' ', flush=True)
-                result = algorithms['A2'](PuzzleState(initial.tiles.copy()))
-                for cost_name, cost_func in cost_funcs.items():
-                    if result['path']:
-                        result['cost'] = sum(cost_func(step, step.action) for step in result['path'][1:])
-                    save_results('Parte4', 'A2-random', cost_name, None, initial, result)
-                print("OK")
-    
+
+    # Parte 4: Randomização de vizinhança (15 execuções, 10 repetições)
+    for i in range(1, 16):
+        print(f"\nExecução {i}/15 - {time.strftime('%H:%M:%S')}")
+        initial = generate_random_state()
+
+        # i. BFS randomizada
+        for run in range(10):
+            print(f"  BFS randomizada {run + 1}/10...", end=' ', flush=True)
+            result = algorithms['A1'](PuzzleState(initial.tiles.copy()), randomize=True)
+            for cost_name, cost_func in cost_funcs.items():
+                if result['path']:
+                    result['cost'] = sum(cost_func(step, step.action)
+                                         for step in result['path'][1:])
+                save_results('Parte4', 'A1-random', cost_name, None, initial, result)
+            print("OK")
+
+        # ii. DFS randomizada
+        for run in range(10):
+            print(f"  DFS randomizada {run + 1}/10...", end=' ', flush=True)
+            result = algorithms['A2'](PuzzleState(initial.tiles.copy()), randomize=True)
+            for cost_name, cost_func in cost_funcs.items():
+                if result['path']:
+                    result['cost'] = sum(cost_func(step, step.action)
+                                         for step in result['path'][1:])
+                save_results('Parte4', 'A2-random', cost_name, None, initial, result)
+            print("OK")
+

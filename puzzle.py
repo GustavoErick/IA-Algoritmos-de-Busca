@@ -3,6 +3,12 @@ import random
 from collections import deque
 from typing import List, Tuple, Dict, Optional, Callable
 
+_goal_base = [1, 2, 3, 4, 5, 6, 7, 8]
+GOALS = {
+    tuple(_goal_base[:i] + [0] + _goal_base[i:])   # 0 em cada posição
+    for i in range(9)
+}
+
 class PuzzleState:
     """Representa um estado do 8-Puzzle"""
     def __init__(self, tiles: List[int], parent=None, action=None, cost=0):
@@ -22,12 +28,8 @@ class PuzzleState:
         return self.cost < other.cost
     
     def is_goal(self) -> bool:
-        """Verifica se é um estado objetivo (qualquer uma das 9 configurações válidas)"""
-        sorted_tiles = [i for i in range(1, 9)] + [0]
-        for i in range(9):
-            if self.tiles[i] != 0 and self.tiles[i] != sorted_tiles[i]:
-                return False
-        return True
+        """Retorna True se o tabuleiro é uma das 9 metas permitidas."""
+        return tuple(self.tiles) in GOALS
     
     def get_successors(self, random_order=False) -> List['PuzzleState']:
         """Gera estados sucessores válidos"""
