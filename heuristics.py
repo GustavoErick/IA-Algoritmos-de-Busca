@@ -1,3 +1,5 @@
+from puzzle import PuzzleState
+
 
 def heuristic_h1(state: PuzzleState) -> int:
     """Número de peças fora do lugar ×2"""

@@ -1,3 +1,5 @@
+from puzzle import PuzzleState
+
 def cost_function_c1(state: PuzzleState, action: str) -> int:
     """Todas as ações custam 2"""
     return 2

@@ -1,3 +1,9 @@
+from puzzle import PuzzleState
+from typing import Callable
+import random
+from collections import deque
+import heapq
+
 def breadth_first_search(initial_state: PuzzleState) -> dict:
     """Implementação da Busca em Largura"""
     queue = deque([initial_state])
@@ -32,7 +38,7 @@ def breadth_first_search(initial_state: PuzzleState) -> dict:
     }
 
 
-def depth_first_search(initial_state: PuzzleState, max_depth=50) -> dict:
+def depth_first_search(initial_state: PuzzleState, max_depth=100) -> dict:
     """Implementação da Busca em Profundidade com limite"""
     stack = [(initial_state, 0)]
     visited = set()
