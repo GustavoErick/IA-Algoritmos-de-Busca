@@ -5,6 +5,7 @@ from collections import deque
 import heapq
 from typing import Optional
 
+
 def breadth_first_search(
     initial_state: PuzzleState,
     *,
@@ -12,7 +13,7 @@ def breadth_first_search(
 ) -> dict:
     """Busca em Largura (A1).  randomize=True embaralha a ordem dos vizinhos."""
     queue = deque([initial_state])
-    visited = {initial_state}           # marca no momento da inserção
+    visited = {initial_state}           
     nodes_generated = nodes_visited = 0
 
     while queue:
@@ -37,6 +38,7 @@ def breadth_first_search(
     return {'path': None, 'cost': float('inf'),
             'nodes_generated': nodes_generated,
             'nodes_visited': nodes_visited}
+
 
 def depth_first_search(
     initial_state: PuzzleState,
@@ -73,6 +75,7 @@ def depth_first_search(
     return {'path': None, 'cost': float('inf'),
             'nodes_generated': nodes_generated,
             'nodes_visited': nodes_visited}
+
 
 # Busca de Custo Uniforme  (A3)
 def uniform_cost_search(initial_state: PuzzleState,
@@ -142,6 +145,7 @@ def greedy_search(initial_state: PuzzleState,
             'nodes_generated': nodes_generated,
             'nodes_visited': nodes_visited}
 
+
 # Busca A*  (A5)
 def a_star_search(initial_state: PuzzleState,
                   cost_func: Callable,
@@ -180,5 +184,3 @@ def a_star_search(initial_state: PuzzleState,
     return {'path': None, 'cost': float('inf'),
             'nodes_generated': nodes_generated,
             'nodes_visited': nodes_visited}
-
-

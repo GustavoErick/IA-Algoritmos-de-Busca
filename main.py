@@ -1,9 +1,7 @@
-# main.py  ──────────────────────────────────────────────────────────────
 from __future__ import annotations
 import argparse, random, time, csv
 from datetime import timedelta
 from typing import List
-
 from puzzle import PuzzleState
 from costs import cost_function_c1, cost_function_c2, cost_function_c3, cost_function_c4
 from heuristics import heuristic_h1, heuristic_h2
@@ -15,7 +13,7 @@ from algorithms import (
     a_star_search,
 )
 
-# ───────────────────────────────────────────────────────────────────────
+
 def save_results(
     part: str,
     algorithm: str,
@@ -44,7 +42,6 @@ def save_results(
     )
 
 
-# ───────────────────────────────────────────────────────────────────────
 def is_solvable(tiles: List[int]) -> bool:
     """8-Puzzle 3 × 3 é solucionável se #inversões for par."""
     inversions = sum(
@@ -64,7 +61,7 @@ def generate_random_state() -> PuzzleState:
             return PuzzleState(tiles)
 
 
-# ───────────────────────────────────────────────────────────────────────
+
 def run_single(args, cost_funcs, heuristics, algos, writer):
     """Permite executar apenas um cenário via --single A5,C2,H1"""
     token = args.single.split(",")
@@ -95,26 +92,21 @@ def run_single(args, cost_funcs, heuristics, algos, writer):
     print("Resultado salvo. Arquivo: results.csv")
 
 
-# ───────────────────────────────────────────────────────────────────────
 def main():
     banner = "=" * 60
     print(f"\n{banner}\nSISTEMA DE EXPERIMENTOS PARA O 8-PUZZLE\n{banner}")
-    print("Partes executadas: 1, 2, 3 e 4 (conforme enunciado).\n")
 
-    # MENU INTERATIVO
     print("Escolha uma opção:")
     print("1 - Executar apenas um algoritmo/cenário")
     print("2 - Executar todas as partes (1, 2, 3 e 4)")
     opcao = input("Digite 1 ou 2: ").strip()
 
-    # dicionários
     cost_funcs = {"C1": cost_function_c1, "C2": cost_function_c2,
                   "C3": cost_function_c3, "C4": cost_function_c4}
     heuristics = {"H1": heuristic_h1, "H2": heuristic_h2}
     algos = {"A1": breadth_first_search, "A2": depth_first_search,
              "A3": uniform_cost_search, "A4": greedy_search, "A5": a_star_search}
 
-    # arquivo CSV
     csvfile = open("results.csv", "w", newline="")
     writer = csv.writer(csvfile)
     writer.writerow(
@@ -158,7 +150,6 @@ def main():
         alg_key, cost_key = tokens[0], tokens[1]
         heur_key = tokens[2] if len(tokens) == 3 else None
 
-        # Validação dos códigos
         if alg_key not in algos:
             print(f"Algoritmo '{alg_key}' inválido.")
             csvfile.close()
@@ -301,13 +292,11 @@ def main():
                     res["cost"] = sum(cf(p, p.action) for p in res["path"][1:])
                 save_results("Parte4", "A2-rand", ck, None, initial, res, writer)
 
-    # ────────────────────────────────────────────────────────────────────
     csvfile.close()
     elapsed = timedelta(seconds=int(time.time() - start_time))
     print(f"\n{banner}\nEXECUÇÃO TERMINADA. Tempo total: {elapsed}\n"
           f"Resultados salvos em results.csv")
 
-    # Resuminho (se pandas instalado)
     try:
         import pandas as pd
 
