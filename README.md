@@ -68,17 +68,50 @@ cd IA-Algoritmos-de-Busca
 pip install -r requirements.txt
 ```
 
-### Executando os Experimentos
-
-Para executar todos os experimentos:
+### Executando partes 
 ```bash
-python main.py
+python main.py --part 1  # Executa experimentos da parte 1
+python main.py --part 2  # Executa experimentos da parte 2
+python main.py --part 3  # Executa experimentos da parte 3
+python main.py --part 4  # Executa experimentos da parte 4
 ```
 
-Para executar um cenário específico:
+Cada parte executa:
+- 30 iterações com estados iniciais aleatórios (exceto parte 4)
+- Salva resultados em `results_part{N}.csv`
+- Mostra progresso e tempo de execução
+- Exibe resumo estatístico (se pandas estiver instalado)
+
+#### Executando Cenários Específicos
 ```bash
-python main.py --single A5,C2,H1
+python main.py --single ALG,Ck[,Hj]
 ```
+
+Onde:
+- ALG: Algoritmo (A1, A2, A3, A4, A5)
+- Ck: Função de Custo (C1, C2, C3, C4)
+- Hj: Heurística (H1, H2) - obrigatória para A4 e A5
+
+Exemplos:
+```bash
+python main.py --single A1,C1    # Busca em Largura com custo C1
+python main.py --single A2,C2    # Busca em Profundidade com custo C2
+python main.py --single A3,C3    # Busca de Custo Uniforme com custo C3
+python main.py --single A4,C1,H1 # Busca Gulosa com custo C1 e heurística H1
+python main.py --single A5,C2,H2 # A* com custo C2 e heurística H2
+```
+
+#### Estado Inicial Personalizado
+```bash
+python main.py --tiles "1 2 3 4 0 5 6 7 8" --single A1,C1
+```
+
+O parâmetro `--tiles` permite especificar um estado inicial personalizado:
+- Use números de 0 a 8
+- 0 representa o espaço vazio
+- Os números devem ser separados por vírgula
+- A ordem representa a configuração do tabuleiro da esquerda para a direita, de cima para baixo
+
 
 ## 📈 Estrutura dos Experimentos
 
