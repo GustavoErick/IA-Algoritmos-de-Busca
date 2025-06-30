@@ -5,7 +5,7 @@ from typing import List, Tuple, Dict, Optional, Callable
 
 _goal_base = [1, 2, 3, 4, 5, 6, 7, 8]
 GOALS = {
-    tuple(_goal_base[:i] + [0] + _goal_base[i:])   # 0 em cada posição
+    tuple(_goal_base[:i] + [0] + _goal_base[i:])
     for i in range(9)
 }
 
