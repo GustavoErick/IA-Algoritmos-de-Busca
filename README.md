@@ -139,16 +139,17 @@ O programa executa quatro conjuntos de experimentos:
 
 ## 📋 Resultados
 
-Os resultados são salvos em `results.csv` com as seguintes métricas:
-- Algoritmo utilizado
-- Função de custo
-- Heurística (quando aplicável)
-- Estado inicial
-- Caminho da solução
-- Comprimento do caminho
-- Custo total
-- Número de nós gerados
-- Número de nós visitados
+Os resultados são salvos em arquivos CSV contendo:
+- Part: Número da parte do experimento
+- Algorithm: Algoritmo utilizado
+- CostFunction: Função de custo utilizada
+- Heuristic: Heurística utilizada (quando aplicável)
+- InitialState: Estado inicial do puzzle
+- Path: Caminho da solução
+- PathLength: Comprimento do caminho
+- Cost: Custo total da solução
+- NodesGenerated: Número de nós gerados
+- NodesVisited: Número de nós visitados
 
 
 ## 🧪 Estrutura do Projeto
@@ -170,6 +171,6 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 
 ## ✨ Autores
 
-[Gustavo Erick  - 536884](https://github.com/GustavoErick)
-[Victor Gabriel - 512076](https://github.com/Picxs)
-[Lucas Anthony - 539300](https://github.com/LukasAnthony)
+[Gustavo Erick  - 536884](https://github.com/GustavoErick)  
+[Victor Gabriel - 512076](https://github.com/Picxs)  
+[Lucas Anthony - 539300](https://github.com/LukasAnthony)  
