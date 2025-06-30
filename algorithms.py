@@ -28,7 +28,6 @@ from puzzle import PuzzleState
 def _expand_successors(state: PuzzleState, *, randomize: bool):
     """Yield successors optionally shuffled."""
     succs = state.get_successors(random_order=randomize)
-    # For DFS without randomization we push in reverse to keep classic LIFO order
     return succs if randomize else list(reversed(succs))
 
 # ──────────────────────────────────────────────

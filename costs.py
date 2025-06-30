@@ -21,4 +21,3 @@ def cost_function_c4(parent: PuzzleState, action: str) -> int:
     delta = {'up': -3, 'right': 1, 'down': 3, 'left': -1}[action]
     new_blank = parent.blank_pos + delta          # posição do zero depois do movimento
     return 5 if new_blank == 4 else cost_function_c2(parent, action)
-
